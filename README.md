@@ -1,9 +1,9 @@
-# \[Group name\]
+# \[PeterJakobGustav\]
 
 **Group members:**
-- A
-- B
-- C
+- Jakob Hellesøe Mathiesen
+- Peter Bendix Christiansen
+- Gustav Taaftegaard Egeskov Jensen
 
 This repository contains  
 1. Inaugural project. 
