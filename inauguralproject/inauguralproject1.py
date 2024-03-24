@@ -99,7 +99,7 @@ class ExchangeEconomyClass:
         else:
             raise ValueError("Optimization failed to maximize consumer A's utility.")
         
-    def optimize_consumer_A_utility(self):
+    def optimize_u_A_continuous(self):
         """Optimizes utility for consumer A by finding the best price that maximizes utility."""
         # Define the objective function for optimization: Maximize utility of A given B's demand.
         objective = lambda price: -self.u_A(*(1 - np.array(self.calculate_demand_consumer_B(price[0]))))
@@ -109,11 +109,11 @@ class ExchangeEconomyClass:
     
         # Check if the optimization was successful and process the results.
         if optimization_result.success:
-            best_price = optimization_result.x[0]  # Optimal price point
-            best_allocation_for_A = 1 - np.array(self.calculate_demand_consumer_B(best_price))  # Allocation for A
-            maximum_utility = -optimization_result.fun  # Maximum utility achieved at optimal price
+            optimal_price_continuous = optimization_result.x[0]  # Optimal price point
+            optimal_allocation_A_continuous = 1 - np.array(self.calculate_demand_consumer_B(optimal_price_continuous))  # Allocation for A
+            optimal_utility_continuous = -optimization_result.fun  # Maximum utility achieved at optimal price
         
-            return best_price, best_allocation_for_A, maximum_utility
+            return optimal_price_continuous, optimal_allocation_A_continuous, optimal_utility_continuous
         else:
             # Throw an error if optimization didn't converge.
             raise ValueError("Unable to find optimal solution for maximizing consumer A's utility.")
