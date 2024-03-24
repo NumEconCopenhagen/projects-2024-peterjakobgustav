@@ -60,7 +60,6 @@ class ExchangeEconomyClass:
             errors.append((error1, error2))
         return errors
     
-    # Function to calculate market clearing price
     def market_clearing_price(self):
      # Solve market clearing conditions for p1 = p* with a interval of 10000
         for p1 in np.linspace(0.5, 2.5, 10000):
@@ -92,7 +91,7 @@ class ExchangeEconomyClass:
         return optimal_p_1, optimal_consumption_A, max_utility
     
     def max_u_A_cont(self):
-        result = minimize(lambda p1: -self.u_A(*(1 - np.array(self.demand_B(p1[0])))), x0=[1], bounds=[(0.01, None)], method='L-BFGS-B')
+        result = minimize(lambda p1: -self.u_A(*(1 - np.array(self.demand_B(p1[0])))), x0=[1], bounds=[(0.01, None)])
         if result.success:
             optimal_price = result.x[0]
             optimal_allocation_A = (1 - np.array(self.demand_B(optimal_price)))
