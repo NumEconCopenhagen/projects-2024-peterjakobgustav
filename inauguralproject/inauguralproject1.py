@@ -3,21 +3,21 @@ import numpy as np
 from scipy.optimize import minimize, minimize_scalar
 
 class ExchangeEconomyClass:
-    def __init__(self, w1A=0.8, w2A=0.3):
+    def __init__(self, omega_1A=0.8, omega_2A=0.3):
         # Constructor for the exchange economy class setting up parameters:
         # alpha: Cobb-Douglas preference parameter for consumer A
         # beta: Cobb-Douglas preference parameter for consumer B
         # w1A, w2A: Initial endowments of goods 1 and 2 for consumer A
         # p2: Price of good 2, set as the numeraire (fixed to 1)
-        self.par = SimpleNamespace(alpha=1/3, beta=2/3, w1A=w1A, w2A=w2A, p2=1)
+        self.par = SimpleNamespace(alpha=1/3, beta=2/3, omega_1A=omega_1A, omega_2A=omega_2A, p2=1)
 
-    def utility_A(self, x1_A, x2_A):
-        # Utility function for consumer A using Cobb-Douglas form
+    def u_A(self, x1_A, x2_A):
+        # Utility function for consumer A
         return (x1_A ** self.par.alpha) * (x2_A ** (1 - self.par.alpha))
 
-    def utility_B(self, x1B, x2B):
+    def u_B(self, x1_B, x2_B):
         # Utility function for consumer B using Cobb-Douglas form
-        return (x1B ** self.par.beta) * (x2B ** (1 - self.par.beta))
+        return (x1_B ** self.par.beta) * (x2_B ** (1 - self.par.beta))
 
     def demand_A(self, p1):
         # Demand function for consumer A deriving from the utility maximization
