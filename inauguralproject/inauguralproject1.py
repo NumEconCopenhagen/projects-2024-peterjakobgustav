@@ -102,7 +102,7 @@ class ExchangeEconomyClass:
     def optimize_u_A_continuous(self):
         """Optimizes utility for consumer A by finding the best price that maximizes utility."""
         # Define the objective function for optimization: Maximize utility of A given B's demand.
-        objective = lambda price: -self.u_A(*(1 - np.array(self.calculate_demand_consumer_B(price[0]))))
+        objective = lambda price: -self.u_A(*(1 - np.array(self.demand_B(price[0]))))
     
         # Perform the optimization with initial guess and bounds for price.
         optimization_result = minimize(objective, x0=[1], bounds=[(0.01, None)])
@@ -110,7 +110,7 @@ class ExchangeEconomyClass:
         # Check if the optimization was successful and process the results.
         if optimization_result.success:
             optimal_price_continuous = optimization_result.x[0]  # Optimal price point
-            optimal_allocation_A_continuous = 1 - np.array(self.calculate_demand_consumer_B(optimal_price_continuous))  # Allocation for A
+            optimal_allocation_A_continuous = 1 - np.array(self.demand_B(optimal_price_continuous))  # Allocation for A
             optimal_utility_continuous = -optimization_result.fun  # Maximum utility achieved at optimal price
         
             return optimal_price_continuous, optimal_allocation_A_continuous, optimal_utility_continuous
