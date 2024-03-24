@@ -22,7 +22,7 @@ class ExchangeEconomyClass:
     def demand_A(self, p1):
         # Demand function for consumer A deriving from the utility maximization
         # subject to the budget constraint with prices p1 for good 1 and self.par.p2 for good 2
-        income_A = self.par.w1A * p1 + self.par.w2A * self.par.p2
+        income_A = self.par.omega_1A * p1 + self.par.omega_2A * self.par.p2
         x1A_star = self.par.alpha * (income_A / p1)
         x2A_star = (1 - self.par.alpha) * (income_A / self.par.p2)
         return x1A_star, x2A_star
@@ -31,7 +31,7 @@ class ExchangeEconomyClass:
     def demand_B(self, p1):
         # Demand function for consumer B deriving from the utility maximization
         # subject to the budget constraint with prices p1 for good 1 and self.par.p2 for good 2
-        income_B = (1 - self.par.w1A) * p1 + (1 - self.par.w2A) * self.par.p2
+        income_B = (1 - self.par.omega_1A) * p1 + (1 - self.par.omega_2A) * self.par.p2
         x1B_star = self.par.beta * (income_B / p1)
         x2B_star = (1 - self.par.beta) * (income_B / self.par.p2)
         return x1B_star, x2B_star
