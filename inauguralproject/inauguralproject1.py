@@ -1,6 +1,6 @@
 from types import SimpleNamespace
 import numpy as np
-from scipy.optimize import minimize_scalar, minimize
+from scipy.optimize import minimize, minimize_scalar
 
 class ExchangeEconomyClass:
     def __init__(self, w1A=0.8, w2A=0.3):
