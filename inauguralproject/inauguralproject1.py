@@ -49,7 +49,7 @@ class ExchangeEconomyClass:
     
     def market_clearing_error(self, p1):
         errors = []
-        for p1 in p1_values:
+        for p1:
             # Calculate allocations for consumer A and B using the given price p
             x1_A_star, x2_A_star = self.demand_A(p)
             x1_B_star, x2_B_star = self.demand_B(p)
