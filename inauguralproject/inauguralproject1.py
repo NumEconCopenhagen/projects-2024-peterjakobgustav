@@ -122,7 +122,7 @@ class ExchangeEconomyClass:
     
 
     def market_clearing_price_8(self,p1_values):
-     # Solve market clearing conditions for p1 = p* with a interval of 10000
+        p1_values = np.linspace(0.5, 2.5, self.par.N)
         for p1 in p1_values:
             # Calculate allocations for consumer A
             x1_A_star, x2_A_star = self.demand_A(p1)
