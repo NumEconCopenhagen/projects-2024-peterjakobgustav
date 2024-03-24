@@ -50,6 +50,9 @@ class ExchangeEconomyClass:
     def market_clearing_error(self, p1):
         errors = []
         for p1 in p1_values:
+            # Calculate allocations for consumer A and B using the given price p
+            x1_A_star, x2_A_star = self.demand_A(p)
+            x1_B_star, x2_B_star = self.demand_B(p)
             # Calculate errors by equations giving in the question
             error1 = x1_A_star - self.par.omega_1A + x1_B_star - (1 - self.par.omega_1A)
             error2 = x2_A_star - self.par.omega_2A + x2_B_star - (1 - self.par.omega_2A)
