@@ -142,3 +142,33 @@ class ExchangeEconomyClass:
         self.W = np.random.uniform(0, 1, (num_elements, 2))
         return self.W
     
+
+    def find_market_equilibrium_for_W(self):
+        """Find market equilibrium allocations for each omega in W."""
+        # Ensure W is generated
+        if not hasattr(self, 'W'):
+            self.generate_W()
+
+        # Initialize storage for results
+        equilibrium_prices = []
+        allocations_A = []
+        allocations_B = []
+
+        for omega_1A, omega_2A in self.W:
+            # Temporarily set omega_1A and omega_2A for this iteration
+            self.par.omega_1A, self.par.omega_2A = omega_1A, omega_2A
+
+            # Find market clearing price
+            p1_star = self.market_clearing_price()
+
+            # Calculate allocations at equilibrium price
+            xA_star = self.demand_A(p1_star)
+            xB_star = self.demand_B(p1_star)
+
+            # Store results
+            equilibrium_prices.append(p1_star)
+            allocations_A.append(xA_star)
+            allocations_B.append(xB_star)
+
+        return equilibrium_prices, allocations_A, allocations_B
+    
