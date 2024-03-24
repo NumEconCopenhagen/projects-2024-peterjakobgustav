@@ -134,3 +134,11 @@ class ExchangeEconomyClass:
         if utility > max_utility:
             max_utility = utility
             optimal_allocation = (x1_A, x2_A)
+
+
+    def generate_W(self, num_elements=50):
+        """Generate a set W with num_elements elements of (omega_1A, omega_2A)."""
+        np.random.seed(42)  # Optional: for reproducibility
+        self.W = np.random.uniform(0, 1, (num_elements, 2))
+        return self.W
+    
