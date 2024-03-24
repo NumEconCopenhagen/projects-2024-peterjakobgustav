@@ -110,10 +110,6 @@ class ExchangeEconomyClass:
             raise ValueError("Unable to find optimal solution for maximizing consumer A's utility.")
         
 
-
-
-
-
     def generate_W(self, num_elements=50):
         """Generate a set W with 50 elements of (omega_1A, omega_2A) and return it as a list of tuples."""
         np.random.seed(10)  # For reproducibility
@@ -121,39 +117,32 @@ class ExchangeEconomyClass:
         # Convert to list of tuples
         list_of_tuples = [tuple(row) for row in self.W]
         return list_of_tuples
-    
 
-    def market_clearing_price_8(self):
-        for p1 in np.linspace(0.5, 2.5, 10000):
-            # Calculate allocations for consumer A
-            x1_A_star, x2_A_star = self.demand_A(p1)
-            # Calculate allocations for consumer B
-            x1_B_star, x2_B_star = self.demand_B(p1)
-            # Check if market clears that is if x1_A_star + x1_B_star is close to 1 and the same
-            # for x2_A_star + x2_B_star with the implemting of Walras' law
-            if np.isclose(x1_A_star + x1_B_star, 1) and np.isclose(x2_A_star + x2_B_star, 1):
-                return p1  # Return the market clearing price when found
+    def market_clearing_error_for_p1(self, p1, omega_1A, omega_2A):
+        """Calculate the squared sum of market clearing errors for a given price p1 and endowments."""
+        self.par.omega_1A = omega_1A
+        self.par.omega_2A = omega_2A
+        x1_A_star, x2_A_star = self.demand_A(p1)
+        x1_B_star, x2_B_star = self.demand_B(p1)
+        error1 = (x1_A_star + x1_B_star - 1) ** 2
+        error2 = (x2_A_star + x2_B_star - 1) ** 2
+        return error1 + error2
 
+    def find_market_clearing_price(self, omega_1A, omega_2A):
+        """Find the market clearing price for given endowments by minimizing market clearing errors."""
+        result = minimize(self.market_clearing_error_for_p1, x0=[1], args=(omega_1A, omega_2A), bounds=[(0.01, None)])
+        if result.success:
+            return result.x[0]
+        else:
+            raise ValueError("Optimization failed to find a market clearing price.")
 
-    def find_market_equilibrium_for_W(self):
-        if not hasattr(self, 'W'):
-            self.generate_W()
-        
-        equilibrium_prices = []
-        allocations_A = []
-        allocations_B = []
-    
-        for omega_1A, omega_2A in self.W:
-            self.par.omega_1A, self.par.omega_2A = omega_1A, omega_2A
-            p1_star = self.market_clearing_price_8()
-
-            xA_star = self.demand_A(p1_star)
-            xB_star = self.demand_B(p1_star)
-        
-            equilibrium_prices.append(p1_star)
-            allocations_A.append(xA_star)
-            allocations_B.append(xB_star)
-    
-        return equilibrium_prices, allocations_A, allocations_B
+    def find_and_plot_equilibria(self):
+        """Find equilibrium allocations for each pair in W and plot them in the Edgeworth box."""
+        equilibria = []
+        for omega_1A, omega_2A in self.generate_W():
+            p1_star = self.find_market_clearing_price(omega_1A, omega_2A)
+            x1_A_star, x2_A_star = self.demand_A(p1_star)
+            # Store the equilibrium allocation
+            equilibria.append((x1_A_star, x2_A_star))
 
     
