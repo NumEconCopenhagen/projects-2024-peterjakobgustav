@@ -37,6 +37,22 @@ class ExchangeEconomyClass:
         return valid_x1_A, valid_x2_A
     
 
+def market_clearing_error(p1):
+    errors = []
+    for p in p1:
+        # Using necessary information giving in the start of the project  
+        # Calculate allocations for consumer A 
+        x1_A_star = alpha * (p * omega_1A + omega_2A) / p
+        x2_A_star = (1 - alpha) * (p * omega_1A + omega_2A) / 1
+        # Calculate allocations for consumer B
+        x1_B_star = beta * (p * (1 - omega_1A) + (1 - omega_2A)) / p
+        x2_B_star = (1 - beta) * (p * (1 - omega_1A) + (1 - omega_2A)) / 1
+        # Calculate errors by equations giving in the question
+        error1 = x1_A_star - omega_1A + x1_B_star - (1 - omega_1A)
+        error2 = x2_A_star - omega_2A + x2_B_star - (1 - omega_2A)
+        # Append the errors to the before empty array 'errors'
+        errors.append((error1, error2))
+    return errors
 
 
     def demand_A(self, p1):
