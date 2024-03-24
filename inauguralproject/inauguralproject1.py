@@ -111,7 +111,7 @@ class ExchangeEconomyClass:
         
 
         # Define the utility function for consumer A with a different name
-    def calculate_u_A(x1_A, x2_A):
+    def calculate_u_A(self, x1_A, x2_A):
         """
         Utility function for consumer A.
         Args:
