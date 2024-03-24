@@ -11,9 +11,9 @@ class ExchangeEconomyClass:
         # p2: Price of good 2, set as the numeraire (fixed to 1)
         self.par = SimpleNamespace(alpha=1/3, beta=2/3, w1A=w1A, w2A=w2A, p2=1)
 
-    def utility_A(self, x1A, x2A):
+    def utility_A(self, x1_A, x2_A):
         # Utility function for consumer A using Cobb-Douglas form
-        return (x1A ** self.par.alpha) * (x2A ** (1 - self.par.alpha))
+        return (x1_A ** self.par.alpha) * (x2_A ** (1 - self.par.alpha))
 
     def utility_B(self, x1B, x2B):
         # Utility function for consumer B using Cobb-Douglas form
