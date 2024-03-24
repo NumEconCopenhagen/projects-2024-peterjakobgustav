@@ -4,11 +4,7 @@ from scipy.optimize import minimize, minimize_scalar
 
 class ExchangeEconomyClass:
     def __init__(self, omega_1A=0.8, omega_2A=0.3, N=75):
-        # Constructor for the exchange economy class setting up parameters:
-        # alpha: Cobb-Douglas preference parameter for consumer A
-        # beta: Cobb-Douglas preference parameter for consumer B
-        # w1A, w2A: Initial endowments of goods 1 and 2 for consumer A
-        # p2: Price of good 2, set as the numeraire (fixed to 1)
+        # Initialize the parameters of the model
         self.par = SimpleNamespace(alpha=1/3, beta=2/3, omega_1A=omega_1A, omega_2A=omega_2A, N=N, p2=1)
 
     def u_A(self, x1_A, x2_A):
@@ -39,6 +35,9 @@ class ExchangeEconomyClass:
                     valid_x2_A.append(x2_A)
 
         return valid_x1_A, valid_x2_A
+    
+
+
 
     def demand_A(self, p1):
         # Demand function for consumer A deriving from the utility maximization
