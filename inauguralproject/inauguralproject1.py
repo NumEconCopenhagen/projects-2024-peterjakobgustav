@@ -121,7 +121,7 @@ class ExchangeEconomyClass:
         return self.W
     
 
-    def market_clearing_price_8(self,p1_values):
+    def market_clearing_price_8(self, p1_values):
         p1_values = np.linspace(0.5, 2.5, self.par.N)
         for p1 in p1_values:
             # Calculate allocations for consumer A
