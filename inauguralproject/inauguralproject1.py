@@ -72,9 +72,9 @@ class ExchangeEconomyClass:
             if np.isclose(x1_A_star + x1_B_star, 1) and np.isclose(x2_A_star + x2_B_star, 1):
                 return p1  # Return the market clearing price when found
     
-    def max_u_A(self, p1_values):
+    def optimize_u_A(self, p1_values):
         """Maximize utility for consumer A given prices p1_values"""
-        max_utility = float('-inf')
+        optimal_utility = float('-inf')
         optimal_p_1 = None
         optimal_consumption_A = None
         for p1 in p1_values:
@@ -84,11 +84,11 @@ class ExchangeEconomyClass:
             if x1_A_star <= 0 or x2_A_star <= 0:
                 continue  # Skip this iteration if either is non-positive
             u_A = self.u_A(x1_A_star, x2_A_star)
-            if u_A > max_utility:
-                max_utility = u_A
+            if u_A > optimal_utility:
+                optimal_utility = u_A
                 optimal_p_1 = p1
                 optimal_consumption_A = (x1_A_star, x2_A_star)
-        return optimal_p_1, optimal_consumption_A, max_utility
+        return optimal_p_1, optimal_consumption_A, optimal_utility
     
     def max_u_A_cont(self):
         result = minimize(lambda p1: -self.u_A(*(1 - np.array(self.demand_B(p1[0])))), x0=[1], bounds=[(0.01, None)])
@@ -98,3 +98,22 @@ class ExchangeEconomyClass:
             return optimal_price, optimal_allocation_A, -result.fun
         else:
             raise ValueError("Optimization failed to maximize consumer A's utility.")
+        
+    def optimize_consumer_A_utility(self):
+        """Optimizes utility for consumer A by finding the best price that maximizes utility."""
+        # Define the objective function for optimization: Maximize utility of A given B's demand.
+        objective = lambda price: -self.u_A(*(1 - np.array(self.calculate_demand_consumer_B(price[0]))))
+    
+        # Perform the optimization with initial guess and bounds for price.
+        optimization_result = minimize(objective, x0=[1], bounds=[(0.01, None)])
+    
+        # Check if the optimization was successful and process the results.
+        if optimization_result.success:
+            best_price = optimization_result.x[0]  # Optimal price point
+            best_allocation_for_A = 1 - np.array(self.calculate_demand_consumer_B(best_price))  # Allocation for A
+            maximum_utility = -optimization_result.fun  # Maximum utility achieved at optimal price
+        
+            return best_price, best_allocation_for_A, maximum_utility
+        else:
+            # Throw an error if optimization didn't converge.
+            raise ValueError("Unable to find optimal solution for maximizing consumer A's utility.")
