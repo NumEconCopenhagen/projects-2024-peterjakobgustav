@@ -89,16 +89,7 @@ class ExchangeEconomyClass:
                 optimal_p_1 = p1
                 optimal_consumption_A = (x1_A_star, x2_A_star)
         return optimal_p_1, optimal_consumption_A, optimal_utility
-    
-    def optimize_u_A_cont(self):
-        result = minimize(lambda p1: -self.u_A(*(1 - np.array(self.demand_B(p1[0])))), x0=[1], bounds=[(0.01, None)])
-        if result.success:
-            optimal_price = result.x[0]
-            optimal_allocation_A = (1 - np.array(self.demand_B(optimal_price)))
-            return optimal_price, optimal_allocation_A, -result.fun
-        else:
-            raise ValueError("Optimization failed to maximize consumer A's utility.")
-        
+       
     def optimize_u_A_continuous(self):
         """Optimizes utility for consumer A by finding the best price that maximizes utility."""
         # Define the objective function for optimization: Maximize utility of A given B's demand.
