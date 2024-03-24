@@ -144,5 +144,18 @@ class ExchangeEconomyClass:
             x1_A_star, x2_A_star = self.demand_A(p1_star)
             # Store the equilibrium allocation
             equilibria.append((x1_A_star, x2_A_star))
+    
+        # Unpack the equilibrium allocations for plotting
+        x1_A_stars, x2_A_stars = zip(*equilibria)
+        
+        # Plotting
+        plt.figure(figsize=(8, 6))
+        plt.scatter(x1_A_stars, x2_A_stars, c='blue', label='Equilibrium Allocations')
+        plt.xlabel('$x_{1A}^*$')
+        plt.ylabel('$x_{2A}^*$')
+        plt.title('Equilibrium Allocations in the Edgeworth Box')
+        plt.legend()
+        plt.grid(True)
+        plt.show()
 
     
