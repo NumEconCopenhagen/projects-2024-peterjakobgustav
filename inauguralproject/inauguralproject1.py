@@ -37,8 +37,6 @@ class ExchangeEconomyClass:
         return valid_x1_A, valid_x2_A
     
     def demand_A(self, p1):
-        # Demand function for consumer A deriving from the utility maximization
-        # subject to the budget constraint with prices p1 for good 1 and self.par.p2 for good 2
         income_A = self.par.omega_1A * p1 + self.par.omega_2A * self.par.p2
         x1A_star = self.par.alpha * (income_A / p1)
         x2A_star = (1 - self.par.alpha) * (income_A / self.par.p2)
@@ -46,14 +44,10 @@ class ExchangeEconomyClass:
 
 
     def demand_B(self, p1):
-        # Demand function for consumer B deriving from the utility maximization
-        # subject to the budget constraint with prices p1 for good 1 and self.par.p2 for good 2
         income_B = (1 - self.par.omega_1A) * p1 + (1 - self.par.omega_2A) * self.par.p2
         x1B_star = self.par.beta * (income_B / p1)
         x2B_star = (1 - self.par.beta) * (income_B / self.par.p2)
         return x1B_star, x2B_star
-    
-    
     
     def max_u_A(self, P1):
         """Maximize utility for consumer A given prices P1"""
@@ -74,8 +68,6 @@ class ExchangeEconomyClass:
         return optimal_p_1, optimal_consumption_A, max_utility
     
     def max_u_A_cont(self):
-        # Function to maximize consumer A's utility for any positive price of good 1
-        # Uses a numerical solver to maximize the utility as a continuous function of price
         result = minimize(lambda p1: -self.u_A(*(1 - np.array(self.demand_B(p1[0])))), x0=[1], bounds=[(0.01, None)], method='L-BFGS-B')
         if result.success:
             optimal_price = result.x[0]
