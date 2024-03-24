@@ -121,6 +121,19 @@ class ExchangeEconomyClass:
         return self.W
     
 
+    def market_clearing_price_8(self,p1_values):
+     # Solve market clearing conditions for p1 = p* with a interval of 10000
+        for p1 in p1_values:
+            # Calculate allocations for consumer A
+            x1_A_star, x2_A_star = self.demand_A(p1)
+            # Calculate allocations for consumer B
+            x1_B_star, x2_B_star = self.demand_B(p1)
+            # Check if market clears that is if x1_A_star + x1_B_star is close to 1 and the same
+            # for x2_A_star + x2_B_star with the implemting of Walras' law
+            if np.isclose(x1_A_star + x1_B_star, 1) and np.isclose(x2_A_star + x2_B_star, 1):
+                return p1  # Return the market clearing price when found
+
+
     def find_market_equilibrium_for_W(self):
         if not hasattr(self, 'W'):
             self.generate_W()
@@ -131,7 +144,7 @@ class ExchangeEconomyClass:
     
         for omega_1A, omega_2A in self.W:
             self.par.omega_1A, self.par.omega_2A = omega_1A, omega_2A
-            p1_star = self.market_clearing_price()
+            p1_star = self.market_clearing_price_8()
         
             if p1_star is None:
                 print("Market clearing price not found for omega_1A = ", omega_1A, "omega_2A = ", omega_2A)
