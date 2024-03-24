@@ -90,7 +90,7 @@ class ExchangeEconomyClass:
                 optimal_consumption_A = (x1_A_star, x2_A_star)
         return optimal_p_1, optimal_consumption_A, optimal_utility
     
-    def max_u_A_cont(self):
+    def optimize_u_A_cont(self):
         result = minimize(lambda p1: -self.u_A(*(1 - np.array(self.demand_B(p1[0])))), x0=[1], bounds=[(0.01, None)])
         if result.success:
             optimal_price = result.x[0]
