@@ -9,7 +9,7 @@ class ExchangeEconomyClass:
         # beta: Cobb-Douglas preference parameter for consumer B
         # w1A, w2A: Initial endowments of goods 1 and 2 for consumer A
         # p2: Price of good 2, set as the numeraire (fixed to 1)
-        self.par = SimpleNamespace(alpha=1/3, beta=2/3, omega_1A=omega_1A, omega_2A=omega_2A, N=N p2=1)
+        self.par = SimpleNamespace(alpha=1/3, beta=2/3, omega_1A=omega_1A, omega_2A=omega_2A, N=N, p2=1)
 
     def u_A(self, x1_A, x2_A):
         # Utility function for consumer A
@@ -33,8 +33,8 @@ class ExchangeEconomyClass:
                 x1_B = 1 - x1_A
                 x2_B = 1 - x2_A
                 # Check if the combination is valid according to the given conditions and append if true
-                if self.u_A(x1_A, x2_A) >= self.u_A(self.omega_1A, self.omega_2A) and \
-                   self.u_B(x1_B, x2_B) >= self.u_B(1 - self.omega_1A, 1 - self.omega_2A):
+                if self.u_A(x1_A, x2_A) >= self.u_A(self.par.omega_1A, self.par.omega_2A) and \
+                    self.u_B(x1_B, x2_B) >= self.u_B(1 - self.par.omega_1A, 1 - self.par.omega_2A):
                     valid_x1_A.append(x1_A)
                     valid_x2_A.append(x2_A)
 
