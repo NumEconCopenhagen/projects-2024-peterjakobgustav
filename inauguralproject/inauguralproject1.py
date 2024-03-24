@@ -47,9 +47,9 @@ class ExchangeEconomyClass:
         x2_B_star = (1 - self.par.beta) * (p1 * (1 - self.par.omega_1A) + (1 - self.par.omega_2A)) / self.par.p2
         return x1_B_star, x2_B_star
     
-    def market_clearing_error(self, p1):
+    def market_clearing_error(self, p1_values):
         errors = []
-        for p1:
+        for p in p1_values:
             # Calculate allocations for consumer A and B using the given price p
             x1_A_star, x2_A_star = self.demand_A(p)
             x1_B_star, x2_B_star = self.demand_B(p)
