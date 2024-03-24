@@ -137,8 +137,8 @@ class ExchangeEconomyClass:
 
 
     def generate_W(self, num_elements=50):
-        """Generate a set W with num_elements elements of (omega_1A, omega_2A)."""
-        np.random.seed(42)  # Optional: for reproducibility
+        """Generate a set W with 50 elements of (omega_1A, omega_2A)."""
+        np.random.seed(10)  # For reproducibility
         self.W = np.random.uniform(0, 1, (num_elements, 2))
         return self.W
     
