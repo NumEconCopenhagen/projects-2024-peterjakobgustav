@@ -37,17 +37,25 @@ class ExchangeEconomyClass:
         return valid_x1_A, valid_x2_A
     
     def demand_A(self, p1):
-        income_A = self.par.omega_1A * p1 + self.par.omega_2A * self.par.p2
-        x1A_star = self.par.alpha * (income_A / p1)
-        x2A_star = (1 - self.par.alpha) * (income_A / self.par.p2)
-        return x1A_star, x2A_star
+        x1_A_star = self.par.alpha * (p1 * self.par.omega_1A + self.par.omega_2A) / p1
+        x2_A_star = (1 - self.par.alpha) * (p1 * self.par.omega_1A + self.par.omega_2A) / self.par.p2
+        return x1_A_star, x2_A_star
 
 
     def demand_B(self, p1):
-        income_B = (1 - self.par.omega_1A) * p1 + (1 - self.par.omega_2A) * self.par.p2
-        x1B_star = self.par.beta * (income_B / p1)
-        x2B_star = (1 - self.par.beta) * (income_B / self.par.p2)
-        return x1B_star, x2B_star
+        x1_B_star = self.par.beta * (p1 * (1 - self.par.omega_1A) + (1 - self.par.omega_2A)) / p1
+        x2_B_star = (1 - self.par.beta) * (p1 * (1 - self.par.omega_1A) + (1 - self.par.omega_2A)) / self.par.p2
+        return x1_B_star, x2_B_star
+    
+    def market_clearing_error(self, p1):
+        errors = []
+        for p1 in P1:
+            # Calculate errors by equations giving in the question
+            error1 = x1_A_star - self.par.omega_1A + x1_B_star - (1 - self.par.omega_1A)
+            error2 = x2_A_star - self.par.omega_2A + x2_B_star - (1 - self.par.omega_2A)
+            # Append the errors to the before empty array 'errors'
+            errors.append((error1, error2))
+        return errors
     
     def max_u_A(self, P1):
         """Maximize utility for consumer A given prices P1"""
