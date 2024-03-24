@@ -136,7 +136,7 @@ class ExchangeEconomyClass:
             optimal_allocation = (x1_A, x2_A)
 
 
-    def gen_W(self, num_elements=50):
+    def generate_W(self, num_elements=50):
         """Generate a set W with 50 elements of (omega_1A, omega_2A)."""
         np.random.seed(10)  # For reproducibility
         self.W = np.random.uniform(0, 1, (num_elements, 2))
