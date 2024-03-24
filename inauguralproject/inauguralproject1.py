@@ -108,3 +108,29 @@ class ExchangeEconomyClass:
         else:
             # Show error if optimization was unsuccessful
             raise ValueError("Unable to find optimal solution for maximizing consumer A's utility.")
+        
+
+        # Define the utility function for consumer A with a different name
+    def calculate_u_A(x1_A, x2_A):
+        """
+        Utility function for consumer A.
+        Args:
+            x1_A: Quantity of good x1 allocated to consumer A.
+            x2_A: Quantity of good x2 allocated to consumer A.
+        Returns:
+            Utility value for consumer A given the allocation.
+        """
+        return x1_A ** self.par.alpha * x2_A ** (1 - self.par.alpha)
+
+    # Initialize variables to store the optimal allocation and utility
+    optimal_allocation = None
+    max_utility = -float('inf')
+
+    # Iterate through valid combinations and find the one with maximum utility
+    for i in range(len(valid_x1_A)):
+        x1_A = valid_x1_A[i]
+        x2_A = valid_x2_A[i]
+        utility = calculate_u_A(x1_A, x2_A)  # Call the utility function using the new name
+        if utility > max_utility:
+            max_utility = utility
+            optimal_allocation = (x1_A, x2_A)
