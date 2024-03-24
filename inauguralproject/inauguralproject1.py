@@ -49,10 +49,10 @@ class ExchangeEconomyClass:
     
     def market_clearing_error(self, p1_values):
         errors = []
-        for p in p1_values:
+        for p1 in p1_values:
             # Calculate allocations for consumer A and B using the given price p
-            x1_A_star, x2_A_star = self.demand_A(p)
-            x1_B_star, x2_B_star = self.demand_B(p)
+            x1_A_star, x2_A_star = self.demand_A(p1)
+            x1_B_star, x2_B_star = self.demand_B(p1)
             # Calculate errors by equations giving in the question
             error1 = x1_A_star - self.par.omega_1A + x1_B_star - (1 - self.par.omega_1A)
             error2 = x2_A_star - self.par.omega_2A + x2_B_star - (1 - self.par.omega_2A)
@@ -73,12 +73,12 @@ class ExchangeEconomyClass:
             if np.isclose(x1_A_star + x1_B_star, 1) and np.isclose(x2_A_star + x2_B_star, 1):
                 return p1  # Return the market clearing price when found
     
-    def max_u_A(self, P1):
-        """Maximize utility for consumer A given prices P1"""
+    def max_u_A(self, p1_values):
+        """Maximize utility for consumer A given prices p1_values"""
         max_utility = float('-inf')
         optimal_p_1 = None
         optimal_consumption_A = None
-        for p1 in P1:
+        for p1 in p1_values:
             x1_B_star, x2_B_star = self.demand_B(p1)
             x1_A_star, x2_A_star = 1 - x1_B_star, 1 - x2_B_star
             # Ensure x1_A_star and x2_A_star are positive
