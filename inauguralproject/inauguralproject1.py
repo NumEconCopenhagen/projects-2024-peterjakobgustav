@@ -72,7 +72,7 @@ class ExchangeEconomyClass:
             if np.isclose(x1_A_star + x1_B_star, 1) and np.isclose(x2_A_star + x2_B_star, 1):
                 return p1  # Return the market clearing price when found
     
-    def optimize_u_A(self, p1_values):
+    def maximize_u_A(self, p1_values):
         """Maximize utility for consumer A given prices p1_values"""
         optimal_utility = float('-inf')
         optimal_p_1 = None
@@ -90,7 +90,7 @@ class ExchangeEconomyClass:
                 optimal_consumption_A = (x1_A_star, x2_A_star)
         return optimal_p_1, optimal_consumption_A, optimal_utility
        
-    def optimize_u_A_continuous(self):
+    def maximize_u_A_continuous(self):
         """Optimizes utility for consumer A by finding the best price that maximizes utility."""
         # Define the objective function for optimization: Maximize utility of A given B's demand.
         objective = lambda price: -self.u_A(*(1 - np.array(self.demand_B(price[0]))))
@@ -115,13 +115,15 @@ class ExchangeEconomyClass:
 
 
     def generate_W(self, num_elements=50):
-        """Generate a set W with 50 elements of (omega_1A, omega_2A)."""
+        """Generate a set W with 50 elements of (omega_1A, omega_2A) and return it as a list of tuples."""
         np.random.seed(10)  # For reproducibility
         self.W = np.random.uniform(0, 1, (num_elements, 2))
-        return self.W
+        # Convert to list of tuples
+        list_of_tuples = [tuple(row) for row in self.W]
+        return list_of_tuples
     
 
-    def market_clearing_price_8(self, p1_values):
+    def market_clearing_price_8(self):
         p1_values = np.linspace(0.5, 2.5, self.par.N)
         for p1 in p1_values:
             # Calculate allocations for consumer A
@@ -145,11 +147,7 @@ class ExchangeEconomyClass:
         for omega_1A, omega_2A in self.W:
             self.par.omega_1A, self.par.omega_2A = omega_1A, omega_2A
             p1_star = self.market_clearing_price_8()
-        
-            if p1_star is None:
-                print("Market clearing price not found for omega_1A = ", omega_1A, "omega_2A = ", omega_2A)
-                continue  # Skip this iteration if no market clearing price was found
-        
+
             xA_star = self.demand_A(p1_star)
             xB_star = self.demand_B(p1_star)
         
