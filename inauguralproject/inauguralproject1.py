@@ -1,5 +1,6 @@
 from types import SimpleNamespace
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy.optimize import minimize, minimize_scalar
 
 class ExchangeEconomyClass:
