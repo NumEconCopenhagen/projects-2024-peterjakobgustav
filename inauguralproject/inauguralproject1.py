@@ -106,5 +106,5 @@ class ExchangeEconomyClass:
         
             return optimal_price_continuous, optimal_allocation_A_continuous, optimal_utility_continuous
         else:
-            # Throw an error if optimization didn't converge.
+            # Show error if optimization was unsuccessful
             raise ValueError("Unable to find optimal solution for maximizing consumer A's utility.")
