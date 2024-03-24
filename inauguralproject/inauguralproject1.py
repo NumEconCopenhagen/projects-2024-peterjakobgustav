@@ -60,6 +60,19 @@ class ExchangeEconomyClass:
             errors.append((error1, error2))
         return errors
     
+    # Function to calculate market clearing price
+    def market_clearing_price():
+     # Solve market clearing conditions for p1 = p* with a interval of 10000
+      for p1 in np.linspace(0.5, 2.5, 10000):
+            # Calculate allocations for consumer A
+            x1_A_star, x2_A_star = self.demand_A(p1)
+            # Calculate allocations for consumer B
+            x1_B_star, x2_B_star = self.demand_B(p1)
+            # Check if market clears that is if x1_A_star + x1_B_star is close to 1 and the same
+            # for x2_A_star + x2_B_star with the implemting of Walras' law
+            if np.isclose(x1_A_star + x1_B_star, 1) and np.isclose(x2_A_star + x2_B_star, 1):
+                return p1  # Return the market clearing price when found
+    
     def max_u_A(self, P1):
         """Maximize utility for consumer A given prices P1"""
         max_utility = float('-inf')
