@@ -46,9 +46,9 @@ class ExchangeEconomyClass:
         for p1 in P1:
             x1_B_star, x2_B_star = self.demand_B(p1)
             x1_A_star, x2_A_star = 1 - x1_B_star, 1 - x2_B_star
-            utility_A = self.utility_A(x1_A_star, x2_A_star)
-            if utility_A > max_utility:
-                max_utility = utility_A
+            u_A = self.u_A(x1_A_star, x2_A_star)
+            if u_A > max_utility:
+                max_utility = u_A
                 optimal_p_1 = p1
                 optimal_consumption_A = (x1_A_star, x2_A_star)
         return optimal_p_1, optimal_consumption_A, max_utility
@@ -56,7 +56,7 @@ class ExchangeEconomyClass:
     def max_A_utility_cont(self):
         # Function to maximize consumer A's utility for any positive price of good 1
         # Uses a numerical solver to maximize the utility as a continuous function of price
-        result = minimize(lambda p1: -self.utility_A(*(1 - np.array(self.demand_B(p1[0])))), x0=[1], bounds=[(0.01, None)], method='L-BFGS-B')
+        result = minimize(lambda p1: -self.u_A(*(1 - np.array(self.demand_B(p1[0])))), x0=[1], bounds=[(0.01, None)], method='L-BFGS-B')
         if result.success:
             optimal_price = result.x[0]
             optimal_allocation_A = (1 - np.array(self.demand_B(optimal_price)))
