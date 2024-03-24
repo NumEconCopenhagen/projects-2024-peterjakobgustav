@@ -110,7 +110,7 @@ class ExchangeEconomyClass:
             raise ValueError("Unable to find optimal solution for maximizing consumer A's utility.")
         
 
-        # Define the utility function for consumer A with a different name
+    # Define the utility function for consumer A with a different name
     def calculate_u_A(self, x1_A, x2_A):
         """
         Utility function for consumer A.
