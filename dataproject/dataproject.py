@@ -116,3 +116,62 @@ def display_air_traffic_interactive(airt):
     # Interactive widget to select a country and display the graph
     widgets.interact(plot_air_traffic, country=country_dropdown)
 #_______________________________________________________________ 
+
+
+#_________________________PLOT 3______________________________________ 
+
+def display_air_traffic_summarize(airt):
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    import numpy as np
+    from statsmodels.tsa.arima.model import ARIMA
+    import ipywidgets as widgets
+    from IPython.display import display
+
+    # Assuming 'airt' is your DataFrame and is structured correctly
+    plot_data = airt.set_index('Country Name').T
+
+    # Correcting the index by stripping the 'y' prefix and converting to integers
+    plot_data.index = plot_data.index.str.strip('y').astype(int)
+
+    #   Extracting data for 'World'
+    world_data = plot_data['World']
+
+    # Fit an ARIMA model (example parameters used, adjust according to your data)
+    model = ARIMA(world_data.dropna(), order=(1, 1, 1))
+    fitted_model = model.fit()
+
+    #    Forecast the next 5 periods
+    forecast = fitted_model.forecast(steps=5)
+
+    # Creating a figure and axis object
+    fig, ax1 = plt.subplots(figsize=(14, 7))
+
+    # Plot historical data
+    world_data.plot(ax=ax1, color='blue', marker='o', label='Historical Data')
+
+    # Plot forecasted data
+    last_year = world_data.index[-1]  # Now this is already an integer
+    forecast_years = np.arange(last_year + 1, last_year + 6)  # Now this should work without error
+    ax1.plot(forecast_years, forecast, color='red', marker='x', linestyle='dashed', label='Forecast')
+
+    # Creating a second y-axis for growth rate
+    ax2 = ax1.twinx()
+    annual_growth_rate = world_data.pct_change() * 100
+    ax2.plot(annual_growth_rate.index, annual_growth_rate, color='green', marker='*', linestyle='-', label='Annual Growth Rate')
+
+    # Formatting the plot
+    ax1.set_title('Total Air Traffic Passengers (World) with Forecast')
+    ax1.set_xlabel('Year')
+    ax1.set_ylabel('Number of Passengers', color='blue')
+    ax2.set_ylabel('Growth Rate (%)', color='green')
+    ax1.grid(True)
+
+    # Handling legends
+    lines, labels = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax2.legend(lines + lines2, labels + labels2, loc='upper left')
+
+    plt.show()
+
+#__________________________________________________________________________
