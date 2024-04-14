@@ -179,37 +179,43 @@ def display_air_traffic_summarize(airt):
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import pandas as pd
+import ipywidgets as widgets
+from IPython.display import display
 
-def plot_heatmap():
+def plot_heatmap_interactive():
     # Load the geographic data
     world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
 
-    # Load your data from the Excel file
+    # Load data from the Excel file
     data = pd.read_excel('airtraffic.xlsx')
 
-    # Merge the geographic data with your data
+    # Merge the geographic data with our data
     world = world.merge(data, how="left", left_on="iso_a3", right_on="Country Code")
 
-     # Manually setting the minimum and maximum values for the color scale
-    vmin = 0  # Minimum value of the color scale
-    vmax = 1000000000  # Maximum value of the color scale
+    # Function to plot based on selected year
+    def plot_for_year(year):
+        fig, ax = plt.subplots(1, 1, figsize=(15, 10))
+        world.boundary.plot(ax=ax, linewidth=1)  # Draw boundary lines
+        world.plot(column=str(year), ax=ax, legend=True,
+                   legend_kwds={'label': f"Number of passengers in {year}", 'orientation': "horizontal"},
+                   cmap='Reds')  # Using 'Reds' colormap
+        
+        ax.set_xticks([])
+        ax.set_yticks([])
+        ax.xaxis.set_visible(False)  # Ensure x-axis is not visible
+        ax.yaxis.set_visible(False)  # Ensure y-axis is not visible
+        ax.set_title(f"Flight Passengers in {year}", fontsize=16, fontweight='bold')
+        plt.show()
 
-    # Plotting
-    fig, ax = plt.subplots(1, 1, figsize=(15, 10))
-    world.boundary.plot(ax=ax, linewidth=1)  # Draw boundary lines
-    world.plot(column='2019', ax=ax, legend=True,
-               legend_kwds={'label': "Billion passengers in 2019", 'orientation': "horizontal"},
-               cmap='Reds', vmin=vmin, vmax=vmax)  # Using 'Reds' colormap
+    # Widget for selecting the year
+    year_dropdown = widgets.Dropdown(
+        options=[str(year) for year in range(1970, 2022)],  # Years from 1970 to 2021
+        value='2019',  # Default value
+        description='Year:',
+        disabled=False,
+    )
 
-    # Hide all axis details
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.xaxis.set_visible(False)  # Ensure x-axis is not visible
-    ax.yaxis.set_visible(False)  # Ensure y-axis is not visible
-
-    # Add a title to the plot
-    ax.set_title("Flight Passengers in 2019", fontsize=16, fontweight='bold')
-
-    plt.show()
+    # Interactive widget to select a year and display the graph
+    widgets.interact(plot_for_year, year=year_dropdown)
 
 
