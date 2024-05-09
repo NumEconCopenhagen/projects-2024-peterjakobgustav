@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class SolowModel:
-    def __init__(self, s=0.3, delta=0.05, n=0.01, g=0.02, alpha=0.3, K0=100, L0=100, A0=1, T=100, dt=1):
+    def __init__(self, s=0.3, delta=0.05, n=0.01, g=0.02, alpha=0.3, K0=100, L0=100, A0=1, T=60, dt=1):
         # Economic parameters initialization
         self.s = s                    # Savings rate
         self.delta = delta            # Depreciation rate
