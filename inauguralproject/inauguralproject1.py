@@ -213,7 +213,7 @@ class ExchangeEconomyClass:
         if result.success:
             optimal_agg_xA1, optimal_agg_xA2 = result.x
             optimal_agg_utility = -result.fun
-            print(f"Optimal Allocation: xA1 = {optimal_agg_xA1:.4f}, xA2 = {optimal_agg_xA2:.4f}, Maximum Aggregate Utility: {optimal_agg_utility:.4f}")
+            print(f"Optimal Allocation: xA1 = {optimal_agg_xA1:.4f}, xA2 = {optimal_agg_xA2:.4f}, Maximum Utility for A: {optimal_agg_utility:.4f}")
         else:
             print("Optimization was not successful. Please check the constraints and initial guess.")
 
