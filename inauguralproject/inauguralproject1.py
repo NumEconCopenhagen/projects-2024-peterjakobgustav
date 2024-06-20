@@ -138,7 +138,6 @@ class ExchangeEconomyClass:
 
 
     def optimal_allocation_5b(self):
-
         # Utility functions
         def uA(x1, x2):
             return x1**self.par.alpha * x2**(1-self.par.alpha)
@@ -180,6 +179,43 @@ class ExchangeEconomyClass:
         else:
             print("Optimization was not successful. Please check the constraints and initial guess.")
 
+
+
+    def optimal_allocation_6(self):
+        # Utility functions
+        def uA(x1, x2):
+            return x1**self.par.alpha * x2**(1-self.par.alpha)
+
+        def uB(x1, x2):
+            return x1**self.par.beta * x2**(1-self.par.beta)
+
+        def aggregate_u(x1, x2):
+            return uA(x1, x2) + uB(1 - x1, 1 - x2)
+
+        # Parameters for consumer B
+        omega_1B = 1 - self.par.omega_1A
+        omega_2B = 1 - self.par.omega_2A
+
+        # Objective function: Maximize aggregate utility
+        def objective(x):
+            xA1, xA2 = x
+            return -aggregate_u(xA1, xA2)  # Negative because we use minimize
+
+        # Initial guess (could be the initial endowments)
+        x0 = [self.par.omega_1A, self.par.omega_2A]
+
+        # Bounds for xA1 and xA2
+        bounds = ((0, 1), (0, 1))
+
+        # Perform the optimization
+        result = minimize(objective, x0, bounds=bounds)
+
+        if result.success:
+            optimal_agg_xA1, optimal_agg_xA2 = result.x
+            optimal_agg_utility = -result.fun
+            print(f"Optimal Allocation: xA1 = {optimal_agg_xA1:.4f}, xA2 = {optimal_agg_xA2:.4f}, Maximum Aggregate Utility: {optimal_agg_utility:.4f}")
+        else:
+            print("Optimization was not successful. Please check the constraints and initial guess.")
 
 
     def generate_W(self, num_elements=50):
