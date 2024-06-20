@@ -137,6 +137,49 @@ class ExchangeEconomyClass:
             print("Maximum Utility:", max_utility)
 
 
+    def optimal_allocation_5b(self):
+
+        # Utility functions
+        def uA(x1, x2):
+            return x1**self.par.alpha * x2**(1-self.par.alpha)
+
+        def uB(x1, x2):
+            return x1**self.par.beta * x2**(1-self.par.beta)
+
+     # Initial utility levels for comparison
+        omega_1B = 1 - self.par.omega_1A
+        omega_2B = 1 - self.par.omega_2A
+        initial_utility_A = uA(self.par.omega_1A, self.par.omega_2A)
+        initial_utility_B = uB(omega_1B, omega_2B)
+
+        # Objective function: Maximize A's utility
+        def objective(x):
+            xA1, xA2 = x
+            return -uA(xA1, xA2)  # Negative because we use minimize
+
+        # Constraints for Pareto improvements and total consumption
+        constraints = (
+            {'type': 'ineq', 'fun': lambda x: uB(1 - x[0], 1 - x[1]) - initial_utility_B},  # uB(1-xA1, 1-xA2) >= uB(ω1B, ω2B)
+        )
+
+        # Initial guess
+        x0 = [self.par.omega_1A, self.par.omega_2A]
+
+        # Bounds for xA1 and xA2
+        bounds = ((0, 1), (0, 1))
+
+        # The optimization
+        result = minimize(objective, x0, bounds=bounds, constraints=constraints)
+
+        if result.success:
+            optimal_xA1, optimal_xA2 = result.x
+            optimal_utility = -result.fun
+            print(f"Optimal Allocation: xA1 = {optimal_xA1:.4f}, xA2 = {optimal_xA2:.4f}, Maximum Utility for A: {optimal_utility:.4f}")
+        else:
+            print("Optimization was not successful. Please check the constraints and initial guess.")
+
+
+
     def generate_W(self, num_elements=50):
         """Generate a set W with 50 elements of (omega_1A, omega_2A) and return it as a list of tuples."""
         np.random.seed(10)  # For reproducibility
