@@ -112,29 +112,29 @@ class ExchangeEconomyClass:
         
 
     def optimal_allocation_5a(self):
-    # Calculate valid Pareto efficient allocations
-    valid_x1_A, valid_x2_A = self.pareto_efficient_allocations()
+        # Calculate valid Pareto efficient allocations
+        valid_x1_A, valid_x2_A = self.pareto_efficient_allocations()
 
-    # Initialize variables to store the optimal allocation and utility
-    optimal_allocation = None
-    max_utility = -float('inf')
+        # Initialize variables to store the optimal allocation and utility
+        optimal_allocation = None
+        max_utility = -float('inf')
 
-    # Iterate through valid combinations and find the one with maximum utility
-    for i in range(len(valid_x1_A)):
-        x1_A = valid_x1_A[i]
-        x2_A = valid_x2_A[i]
-        utility = self.u_A(x1_A, x2_A)
-        if utility > max_utility:
-            max_utility = utility
-            optimal_allocation = (x1_A, x2_A)
+        # Iterate through valid combinations and find the one with maximum utility
+        for i in range(len(valid_x1_A)):
+            x1_A = valid_x1_A[i]
+            x2_A = valid_x2_A[i]
+            utility = self.u_A(x1_A, x2_A)
+            if utility > max_utility:
+                max_utility = utility
+                optimal_allocation = (x1_A, x2_A)
 
-    # Print the optimal allocation and its utility
-    if optimal_allocation is not None:
-        print(f"Optimal Allocation (x1^A, x2^A): ({optimal_allocation[0]:.4f}, {optimal_allocation[1]:.4f})")
-        print(f"Maximum Utility: {max_utility:.4f}")
-    else:
-        print("No optimal allocation found.")
-        print("Maximum Utility:", max_utility)
+        # Print the optimal allocation and its utility
+        if optimal_allocation is not None:
+            print(f"Optimal Allocation (x1^A, x2^A): ({optimal_allocation[0]:.4f}, {optimal_allocation[1]:.4f})")
+            print(f"Maximum Utility: {max_utility:.4f}")
+        else:
+            print("No optimal allocation found.")
+            print("Maximum Utility:", max_utility)
 
 
 
