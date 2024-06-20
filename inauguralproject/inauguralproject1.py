@@ -164,7 +164,7 @@ class ExchangeEconomyClass:
             {'type': 'ineq', 'fun': lambda x: uB(1 - x[0], 1 - x[1]) - initial_utility_B},  # uB(1-xA1, 1-xA2) >= uB(ω1B, ω2B)
         )
 
-        # Initial guess (could be the initial endowments)
+        # Initial guess
         x0 = [self.par.omega_1A, self.par.omega_2A]
 
         # Bounds for xA1 and xA2
@@ -177,10 +177,10 @@ class ExchangeEconomyClass:
             optimal_xA1, optimal_xA2 = result.x
             optimal_utility = -result.fun
             print(f"Optimal Allocation: xA1 = {optimal_xA1:.4f}, xA2 = {optimal_xA2:.4f}, Maximum Utility for A: {optimal_utility:.4f}")
-            return optimal_xA1, optimal_xA2, optimal_utility
         else:
             print("Optimization was not successful. Please check the constraints and initial guess.")
-            return None
+
+
 
     def generate_W(self, num_elements=50):
         """Generate a set W with 50 elements of (omega_1A, omega_2A) and return it as a list of tuples."""
