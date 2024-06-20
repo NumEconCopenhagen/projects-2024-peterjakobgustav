@@ -137,8 +137,6 @@ class ExchangeEconomyClass:
             print("Maximum Utility:", max_utility)
 
 
-
-
     def generate_W(self, num_elements=50):
         """Generate a set W with 50 elements of (omega_1A, omega_2A) and return it as a list of tuples."""
         np.random.seed(10)  # For reproducibility
