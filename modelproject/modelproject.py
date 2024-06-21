@@ -1,6 +1,62 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+class SolowModel1:
+    def __init__(self, alpha=0.3, s=0.2, delta=0.05, n=0.01, g=0.02):
+        self.alpha = alpha  # Output elasticity of capital
+        self.s = s  # Savings rate
+        self.delta = delta  # Depreciation rate
+        self.n = n  # Population growth rate
+        self.g = g  # Technological progress rate
+        self.k = np.linspace(0, 10, 100)  # Capital per worker values
+
+    # Production function: Y = K^alpha * (AL)^(1-alpha)
+    def production_function(self, k):
+        return k**self.alpha
+
+    # Savings function: s * Y
+    def savings_function(self, k):
+        return self.s * self.production_function(k)
+
+    # Depreciation + (n + g) * k
+    def depreciation_line(self, k):
+        return (self.delta + self.n + self.g) * k
+
+    def simulate(self):
+        self.k_star = (self.s / (self.delta + self.n + self.g))**(1 / (1 - self.alpha))
+        self.y_star = self.production_function(self.k_star)
+
+    def plot_results(self, title):
+        plt.figure(figsize=(10, 6))
+
+        # Plot production function
+        plt.plot(self.k, self.production_function(self.k), label='Production Function (Y = K^α)', color='b')
+
+        # Plot savings function
+        plt.plot(self.k, self.savings_function(self.k), label='Savings (sY)', color='g')
+
+        # Plot depreciation line
+        plt.plot(self.k, self.depreciation_line(self.k), label='Depreciation + (n + g)K', color='r')
+
+        # Steady-state lines
+        plt.axvline(x=self.k_star, linestyle='--', color='gray')
+        plt.axhline(y=self.y_star, linestyle='--', color='gray')
+
+        # Labels and title
+        plt.xlabel('Capital per Worker (k)')
+        plt.ylabel('Output per Worker (y) / Savings / Depreciation')
+        plt.title(title)
+        plt.legend()
+
+        # Steady-state annotation
+        plt.text(self.k_star, 0, f'k* = {self.k_star:.2f}', verticalalignment='bottom', horizontalalignment='right')
+        plt.text(0, self.y_star, f'y* = {self.y_star:.2f}', verticalalignment='bottom', horizontalalignment='left')
+
+        plt.grid(True)
+
+        plt.show()
+
+
 class SolowModel:
     def __init__(self, s=0.3, delta=0.05, n=0.01, g=0.02, alpha=0.3, K0=100, L0=100, A0=1, T=60, dt=1):
         # Economic parameters initialization
