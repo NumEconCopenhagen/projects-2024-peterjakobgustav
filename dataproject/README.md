@@ -15,3 +15,5 @@ We apply the **following dataset**:
 ``pip install matplotlib``
 ``pip install geopandas``
 ``pip install ipywidgets``
+``pip install statsmodels``
+``pip install ipython``

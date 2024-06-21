@@ -128,7 +128,7 @@ def display_air_traffic_summarize(airt):
     import ipywidgets as widgets
     from IPython.display import display
 
-    # Assuming 'airt' is your DataFrame and is structured correctly
+    # Loading the 'airt' DataFrame
     plot_data = airt.set_index('Country Name').T
 
     # Correcting the index by stripping the 'y' prefix and converting to integers
@@ -137,7 +137,7 @@ def display_air_traffic_summarize(airt):
     #   Extracting data for 'World'
     world_data = plot_data['World']
 
-    # Fit an ARIMA model (example parameters used, adjust according to your data)
+    # Fit an ARIMA model to the data
     model = ARIMA(world_data.dropna(), order=(1, 1, 1))
     fitted_model = model.fit()
 
@@ -183,7 +183,7 @@ import ipywidgets as widgets
 from IPython.display import display
 
 def plot_heatmap_interactive():
-    # Load the geographic data
+    # Load the geographic data from geopandas
     world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
 
     # Load data from the Excel file
@@ -210,7 +210,7 @@ def plot_heatmap_interactive():
     # Widget for selecting the year
     year_dropdown = widgets.Dropdown(
         options=[str(year) for year in range(1970, 2022)],  # Years from 1970 to 2021
-        value='2019',  # Default value
+        value='2021',  # Default value
         description='Year:',
         disabled=False,
     )
