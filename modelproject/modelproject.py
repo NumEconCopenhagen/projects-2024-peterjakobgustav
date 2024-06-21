@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import sympy as sp
 
 class SolowModel1:
     def __init__(self, alpha=0.3, s=0.2, delta=0.05, n=0.01, g=0.02):
@@ -55,6 +56,21 @@ class SolowModel1:
         plt.grid(True)
 
         plt.show()
+
+        
+    def solve_analytically(self):
+        # Define the symbols
+        k, alpha, s, delta, n, g = sp.symbols('k alpha s delta n g')
+
+        # Define the production function f(k) = k^alpha
+        f_k = k**alpha
+
+        # Define the steady-state equation s * f(k) = (delta + n + g) * k
+        steady_state_eq = sp.Eq(s * f_k, (delta + n + g) * k)
+
+        # Solve for k
+        steady_state_k = sp.solve(steady_state_eq, k)
+        return steady_state_k
 
 
 class SolowModel:
