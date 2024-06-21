@@ -2,7 +2,7 @@
 
 Our project is titled **Solow Model** and is about demonstrating the structure and components of a model analysis project. This project specifically focuses on the Solow economic growth model.
 
-> The `modelproject.py` file includes a function which could be used multiple times in this notebook.
+The `modelproject.py` file includes a function which could be used multiple times in this notebook.
 
 The **results** of the project can be seen from running [modelproject.ipynb](modelproject.ipynb).
 
