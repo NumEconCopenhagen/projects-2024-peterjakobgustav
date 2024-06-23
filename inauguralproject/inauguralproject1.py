@@ -19,8 +19,8 @@ class ExchangeEconomyClass:
     def pareto_efficient_allocations(self):
         """Compute Pareto efficient allocations."""
         # Define the set of combinations of x1_A and x2_A
-        x1_A_values = np.linspace(0, 1, self.par.N) # Possible values for x1_A (N+1 ensures 75 possible values)
-        x2_A_values = np.linspace(0, 1, self.par.N) # Possible values for x2_A (N+1 ensures 75 possible values)
+        x1_A_values = np.linspace(0, 1, self.par.N+1) # Possible values for x1_A 
+        x2_A_values = np.linspace(0, 1, self.par.N+1) # Possible values for x2_A
         # Initialize lists to store valid combinations
         valid_x1_A = []
         valid_x2_A = []
