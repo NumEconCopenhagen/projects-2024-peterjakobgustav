@@ -68,16 +68,16 @@ class ExchangeEconomyClass:
             x1_A_star, x2_A_star = self.demand_A(p1)
             # Calculate allocations for consumer B
             x1_B_star, x2_B_star = self.demand_B(p1)
-            # Check if market clears that is if x1_A_star + x1_B_star is close to 1 and the same
-            # for x2_A_star + x2_B_star with the implemting of Walras' law
+            # Check if market clears that is if x1_A_star + x1_B_star is close to 1 and the same for x2_A_star + x2_B_star utilizing Walras' law
             if np.isclose(x1_A_star + x1_B_star, 1) and np.isclose(x2_A_star + x2_B_star, 1):
                 return p1  # Return the market clearing price when found
     
     def maximize_u_A(self, p1_values):
         """Maximize utility for consumer A given prices p1_values"""
-        optimal_utility = float('-inf')
-        optimal_p_1 = None
-        optimal_consumption_A = None
+        utilities = []
+        prices = []
+        consumptions = []
+
         for p1 in p1_values:
             x1_B_star, x2_B_star = self.demand_B(p1)
             x1_A_star, x2_A_star = 1 - x1_B_star, 1 - x2_B_star
@@ -85,11 +85,23 @@ class ExchangeEconomyClass:
             if x1_A_star <= 0 or x2_A_star <= 0:
                 continue  # Skip this iteration if either is non-positive
             u_A = self.u_A(x1_A_star, x2_A_star)
-            if u_A > optimal_utility:
-                optimal_utility = u_A
-                optimal_p_1 = p1
-                optimal_consumption_A = (x1_A_star, x2_A_star)
+            utilities.append(u_A)
+            prices.append(p1)
+            consumptions.append((x1_A_star, x2_A_star))
+
+        if not utilities:
+            return None, None, float('-inf')
+
+        # Find the index of the maximum utility
+        max_index = utilities.index(max(utilities))
+
+        # Retrieve the optimal values
+        optimal_utility = utilities[max_index]
+        optimal_p_1 = prices[max_index]
+        optimal_consumption_A = consumptions[max_index]
+
         return optimal_p_1, optimal_consumption_A, optimal_utility
+
        
     def maximize_u_A_continuous(self):
         """Optimizes utility for consumer A by finding the best price that maximizes utility."""
