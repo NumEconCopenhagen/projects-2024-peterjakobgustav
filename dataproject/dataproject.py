@@ -220,9 +220,11 @@ def plot_heatmap_interactive():
     # Interactive widget to select a year and display the graph
     widgets.interact(plot_for_year, year=year_dropdown)
 
+
+
 #__________________________________________________________________________
 
-#_________________________PLOT 5______________________________________
+#_________________________PLOT 5____________________________________________
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -253,10 +255,10 @@ def pie_chart(airt):
     plot_data = plot_data.drop(adjusted_non_countries, axis=1, errors='ignore')
 
     # Finding the top 10 countries in 2021 by passengers
-    top10_data = plot_data.loc['2021'].nlargest(10)
+    top10_data = plot_data.loc['y2021'].nlargest(10)
 
     # Adding a row to the DataFrame to indicate whether a country is in the top 10
-    plot_data.loc['is_top_10'] = plot_data.loc['2021'].isin(top10_data)
+    plot_data.loc['is_top_10'] = plot_data.loc['y2021'].isin(top10_data)
 
     # Transposing the DataFrame to have countries as rows
     plot_data_T = plot_data.T
@@ -274,14 +276,9 @@ def pie_chart(airt):
     percentage = (grouped / total_sum) * 100
 
     # Plotting the pie chart
-    plt.figure(figsize=(10, 10))    
-    plt.pie(percentage['2021'], labels=percentage.index, autopct='%1.1f%%', startangle=90)
+    plt.figure(figsize=(4, 4))    
+    plt.pie(percentage['y2021'], labels=percentage.index, autopct='%1.1f%%', startangle=90)
     plt.axis('equal')
     plt.title('Top 10 countries by passengers share of total air traffic in 2021')
     plt.show()
-
-
-
-
 #__________________________________________________________________________
-
