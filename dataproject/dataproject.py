@@ -248,9 +248,6 @@ def pie_chart(airt):
     # Identify entries to exclude based on being a non-country or having a name longer than 18 characters
     excluded_entries = adjusted_non_countries + [name for name in plot_data.columns if len(name) > 18]
 
-    # Print excluded entries
-    print("Excluded entries:", adjusted_non_countries)
-
     # Filter out non-country regions and long name countries from the DataFrame
     plot_data = plot_data.drop(adjusted_non_countries, axis=1, errors='ignore')
 
@@ -281,4 +278,5 @@ def pie_chart(airt):
     plt.axis('equal')
     plt.title('Top 10 countries by passengers share of total air traffic in 2021')
     plt.show()
+
 #__________________________________________________________________________
