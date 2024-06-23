@@ -128,10 +128,10 @@ def display_air_traffic_summarize(airt):
     import ipywidgets as widgets
     from IPython.display import display
 
-    # Loading the 'airt' DataFrame
+    # Loading the DataFrame
     plot_data = airt.set_index('Country Name').T
 
-    # Correcting the index by stripping the 'y' prefix and converting to integers
+    # Correcting the index by removing the 'y' prefix and converting to integers
     plot_data.index = plot_data.index.str.strip('y').astype(int)
 
     #   Extracting data for 'World'
@@ -141,7 +141,7 @@ def display_air_traffic_summarize(airt):
     model = ARIMA(world_data.dropna(), order=(1, 1, 1))
     fitted_model = model.fit()
 
-    #    Forecast the next 5 periods
+    # Forecast the next 5 periods
     forecast = fitted_model.forecast(steps=5)
 
     # Creating a figure and axis object
@@ -176,6 +176,8 @@ def display_air_traffic_summarize(airt):
 
 #__________________________________________________________________________
 
+#_________________________PLOT 4______________________________________  
+
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -186,7 +188,7 @@ def plot_heatmap_interactive():
     # Load the geographic data from geopandas
     world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
 
-    # Load data from the Excel file
+    # Load data from the Excel file. This is done because country codes are removed from the airt DataFrame
     data = pd.read_excel('airtraffic.xlsx')
 
     # Merge the geographic data with our data
@@ -218,4 +220,68 @@ def plot_heatmap_interactive():
     # Interactive widget to select a year and display the graph
     widgets.interact(plot_for_year, year=year_dropdown)
 
+#__________________________________________________________________________
+
+#_________________________PLOT 5______________________________________
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def pie_chart(airt):
+    # List of non-country regions to exclude generally
+    non_countries = ['World', 'EU', 'High income', 'OECD members', 'North America', 'Europe & Central Asia',
+        'IDA & IBRD total', 'Low & middle income', 'IBRD only', 'Middle income', 'Upper middle income',
+        'Late-demographic dividend', 'East Asia & Pacific', 'East Asia & Pacific (IDA & IBRD countries)',
+        'East Asia & Pacific (excluding high income)', 'Early-demographic dividend', 'European Union',
+        'Euro area', 'Arab World', 'South Asia', 'IDA total']
+
+    # List of regions to specifically include despite general exclusion criteria
+    include_specific = ['United Arab Emirates', 'Hong Kong SAR, China', "Korea, Dem. People's Rep."]
+
+    # Adjust the exclusion list by removing the entries we want to include
+    adjusted_non_countries = [region for region in non_countries if region not in include_specific]
+
+    # Transposing the dataframe to have years as rows and setting the index
+    plot_data = airt.set_index('Country Name').T
+
+    # Identify entries to exclude based on being a non-country or having a name longer than 18 characters
+    excluded_entries = adjusted_non_countries + [name for name in plot_data.columns if len(name) > 18]
+
+    # Print excluded entries
+    print("Excluded entries:", adjusted_non_countries)
+
+    # Filter out non-country regions and long name countries from the DataFrame
+    plot_data = plot_data.drop(adjusted_non_countries, axis=1, errors='ignore')
+
+    # Finding the top 10 countries in 2021 by passengers
+    top10_data = plot_data.loc['2021'].nlargest(10)
+
+    # Adding a row to the DataFrame to indicate whether a country is in the top 10
+    plot_data.loc['is_top_10'] = plot_data.loc['2021'].isin(top10_data)
+
+    # Transposing the DataFrame to have countries as rows
+    plot_data_T = plot_data.T
+
+    # Grouping the data by the 'is_top_10' column and summing the values
+    grouped = plot_data_T.groupby('is_top_10').sum()
+
+    # Renaming the rows
+    grouped = grouped.rename(index={False: 'Not top 10 countries', True: 'Top 10 countries'})
+
+    # Finding the total sum of passengers by sum of the two rows
+    total_sum = grouped.sum()
+
+    # Calculating the percentage of passengers for each group
+    percentage = (grouped / total_sum) * 100
+
+    # Plotting the pie chart
+    plt.figure(figsize=(10, 10))    
+    plt.pie(percentage['2021'], labels=percentage.index, autopct='%1.1f%%', startangle=90)
+    plt.axis('equal')
+    plt.title('Top 10 countries by passengers share of total air traffic in 2021')
+    plt.show()
+
+
+
+
+#__________________________________________________________________________
 
