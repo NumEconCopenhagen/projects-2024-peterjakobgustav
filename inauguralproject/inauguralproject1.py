@@ -251,18 +251,33 @@ class ExchangeEconomyClass:
             x1_A_star, x2_A_star = self.demand_A(p1_star)
             # Store the equilibrium allocation
             equilibria.append((x1_A_star, x2_A_star))
-    
+
         # Unpack the equilibrium allocations for plotting
         x1_A_stars, x2_A_stars = zip(*equilibria)
         
         # Plotting
-        plt.figure(figsize=(8, 6))
-        plt.scatter(x1_A_stars, x2_A_stars, c='blue', label='Equilibrium Allocations')
-        plt.xlabel('$x_{1A}^*$')
-        plt.ylabel('$x_{2A}^*$')
-        plt.title('Equilibrium Allocations in the Edgeworth Box')
-        plt.legend()
-        plt.grid(True)
+        fig, ax = plt.subplots(figsize=(8, 6))
+        ax.scatter(x1_A_stars, x2_A_stars, c='blue', label='Equilibrium Allocations')
+        ax.set_xlabel('$x_{1A}^*$')
+        ax.set_ylabel('$x_{2A}^*$')
+        ax.set_title('Equilibrium Allocations in the Edgeworth Box')
+        ax.legend()
+        ax.grid(True)
+        
+        # Create twin axes for the right and top axes
+        ax_right = ax.twinx()
+        ax_top = ax.twiny()
+        
+        # Set labels for the right and top axes
+        ax_right.set_ylabel('$x_{2B}^*$', fontsize=12)
+        ax_top.set_xlabel('$x_{1B}^*$', fontsize=12)
+        
+        # Align the right and top axes limits with the primary axes and invert them
+        ax_right.set_ylim(1, 0)
+        ax_top.set_xlim(1, 0)
+        
+        # Displaying the plot
         plt.show()
+
 
     
