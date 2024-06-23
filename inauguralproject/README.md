@@ -18,7 +18,3 @@ The **results** of the project can be seen from running [inauguralproject.ipynb]
 ## Usage
 To run the project and see the results, open and execute the [inauguralproject.ipynb](inauguralproject.ipynb) file in Jupyter Notebook.
 
-## Key Components
-- **Core Analysis**: Demonstrates the structure and dynamics of the project's main model.
-- **Extension Analysis**: Provides additional insights and extended analysis on the project's focus area.
-
